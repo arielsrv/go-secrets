@@ -2,12 +2,13 @@ package secrets_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/arielsrv/go-secrets/secrets"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 type MockSecretClient struct {
