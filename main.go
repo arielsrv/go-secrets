@@ -12,7 +12,7 @@ import (
 
 func main() {
 	secretService := secrets.NewSecretService()
-	value, err := secretService.Get("secretin")
+	value, err := secretService.Get("PETS_PETS-API_GITLAB_TOKEN")
 	if err != nil {
 		log.Fatal(err)
 	}
