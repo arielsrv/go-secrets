@@ -9,11 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 )
 
-type ISecretService interface {
-	Get(key string) (string, error)
-}
-
-type SecretService struct {
+type AwsSecretsStore struct {
 	config aws.Config
 	Client ISecretClient
 }
@@ -30,14 +26,14 @@ func (s *SecretClient) GetSecretValue(ctx context.Context, params *secretsmanage
 	return s.client.GetSecretValue(ctx, params, optFns...)
 }
 
-func NewSecretService() *SecretService {
+func NewSecretsStore() *AwsSecretsStore {
 	config, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-east-1"))
 	if err != nil {
 		log.Fatal(err)
 	}
 	client := secretsmanager.NewFromConfig(config)
 
-	return &SecretService{
+	return &AwsSecretsStore{
 		config: config,
 		Client: &SecretClient{
 			client: client,
@@ -45,20 +41,25 @@ func NewSecretService() *SecretService {
 	}
 }
 
-func (s SecretService) Get(key string) (string, error) {
+func (s AwsSecretsStore) Get(key string) *SecretDto {
+	secretDto := new(SecretDto)
+
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(key),
 		VersionStage: aws.String("AWSCURRENT"), // VersionStage defaults to AWSCURRENT if unspecified
 	}
+	secretDto.Key = *input.SecretId
 
 	result, err := s.Client.GetSecretValue(context.TODO(), input)
 	if err != nil {
 		// For a list of exceptions thrown, see
 		// https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-		return "", err
+		secretDto.Err = err
+		return secretDto
 	}
 
 	// Decrypts secret using the associated KMS key.
-	var secretString = *result.SecretString
-	return secretString, nil
+	secretDto.Value = *result.SecretString
+
+	return secretDto
 }

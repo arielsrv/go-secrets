@@ -21,14 +21,14 @@ func (m *MockSecretClient) GetSecretValue(context.Context, *secretsmanager.GetSe
 }
 
 func TestSecretService_Get(t *testing.T) {
-	secretService := secrets.NewSecretService()
+	secretService := secrets.NewSecretsStore()
 	secretClient := new(MockSecretClient)
 	secretClient.On("GetSecretValue").Return(GetSecretValue())
 	secretService.Client = secretClient
 
-	actual, err := secretService.Get("my_key")
-	assert.NoError(t, err)
-	assert.Equal(t, "my_secret", actual)
+	actual := secretService.Get("my_key")
+	assert.NoError(t, actual.Err)
+	assert.Equal(t, "my_secret", actual.Value)
 }
 
 func GetSecretValue() (*secretsmanager.GetSecretValueOutput, error) {
