@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+
+env:
+  SOURCE_FOLDER: .
+  BUILD_FOLDER: build
+  COVERAGE_OUT_FILE: coverage.out
+  COVERAGE_HTML_FILE: coverage.html
+  GO_VERSION: 1.20.6
+  TASK_VERSION: v3.27.1
+  GITLAB_TOKEN: ${GITLAB_TOKEN}
+
+tasks:
+  lsif:
+    desc: Code Intelligence
+    cmds:
+      - .gitlab/code_navigation.sh
+  lint:
+    desc: Use golangci-lint (.golangci.yml).
+    cmds:
+      - golangci-lint run --fix
+  race:
+    desc: Run race conditions test.
+    cmds:
+      - .gitlab/test/race.sh
+  test:
+    desc: Run test.
+    cmds:
+      - .gitlab/test/unit.sh
+  coverage:
+    desc: Makes report coverage.
+    cmds:
+      - .gitlab/test/coverage.sh
+  download:
+    desc: Run go mod tidy.
+    cmds:
+      - go mod tidy
+  upgrade:
+    desc: Check for latest direct dependencies.
+    cmds:
+      - go-mod-upgrade
+  update:
+    desc: Check for latest direct dependencies
+    deps: [ download ]
+    cmds:
+      - go list -mod=mod -u -m -json all | go-mod-outdated -update -direct
+  create-folder:
+    cmds:
+      - echo '{{OS}} {{ARCH}}'
+      - echo '{{fromSlash .BUILD_FOLDER}}'
+      - '{{if eq OS "darwin"}}[ -d "$BUILD_FOLDER" \] & rm -rf "$BUILD_FOLDER" && mkdir -p "$BUILD_FOLDER/.."{{end}}'
+    internal: true
+  build:
+    desc: Build the go EXECUTABLE.
+    deps: [ create-folder ]
+    generates:
+      - server
+    cmds:
+      - go build -v ./...
+  run:
+    desc: main()
+    cmds:
+      - go run program.go
+  all:
+    desc: Run relevant tasks.
+    cmds:
+      - task: download
+      - task: lint
+      - task: test
+      - task: race
+  default:
+    desc: Run [build] task.
+    cmds:
+      - task: all
