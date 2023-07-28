@@ -3,7 +3,7 @@ module github.com/arielsrv/go-secrets
 go 1.20
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.19.0
+	github.com/aws/aws-sdk-go-v2 v1.19.1
 	github.com/aws/aws-sdk-go-v2/config v1.18.28
 	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.19.11
 	github.com/eko/gocache/lib/v4 v4.1.3
