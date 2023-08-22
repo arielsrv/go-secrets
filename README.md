@@ -2,7 +2,7 @@
 
 # ⚡️ Usage
 
-## configuration
+## Configuration
 
 ```go
 package main
