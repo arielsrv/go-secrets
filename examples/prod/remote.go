@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	_ "github.com/arielsrv/go-config/autoload"
 	"github.com/arielsrv/go-config/env"
 	"github.com/arielsrv/go-secrets/secrets"
-	"log"
 )
 
 func main() {
