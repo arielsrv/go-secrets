@@ -6,8 +6,8 @@ env:
   BUILD_FOLDER: build
   COVERAGE_OUT_FILE: coverage.out
   COVERAGE_HTML_FILE: coverage.html
-  GO_VERSION: 1.20.6
-  TASK_VERSION: v3.27.1
+  GO_VERSION: 1.21
+  TASK_VERSION: v3.28
   GITLAB_TOKEN: ${GITLAB_TOKEN}
 
 tasks:
