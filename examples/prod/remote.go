@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/arielsrv/go-config/autoload"
 	"github.com/arielsrv/go-config/env"
-	"github.com/arielsrv/go-secrets/secrets"
+	"gitlab.com/iskaypetcom/digital/sre/tools/dev/go-mq-producer/secrets"
 )
 
 func main() {

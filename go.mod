@@ -1,8 +1,6 @@
-module github.com/arielsrv/go-secrets
+module gitlab.com/iskaypetcom/digital/sre/tools/dev/go-mq-producer
 
 go 1.21
-
-toolchain go1.21.0
 
 require (
 	github.com/arielsrv/go-config v0.1.8

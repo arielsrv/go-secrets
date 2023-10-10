@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/arielsrv/go-secrets/secrets"
+	"gitlab.com/iskaypetcom/digital/sre/tools/dev/go-mq-producer/secrets"
 
 	"github.com/eko/gocache/store/go_cache/v4"
 	"github.com/patrickmn/go-cache"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/arielsrv/go-secrets/secrets"
+	"gitlab.com/iskaypetcom/digital/sre/tools/dev/go-mq-producer/secrets"
 	"log"
 )
 
